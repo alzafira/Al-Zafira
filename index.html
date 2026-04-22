@@ -122,8 +122,10 @@
         #prism-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         @keyframes rotate-border-glow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .review-track { display: flex; width: max-content; animation: marquee 18s linear infinite; }
+        .review-track { display: flex; width: max-content; animation: marquee 16s linear infinite; }
         .brand-highlight { color: #f1c97d; font-style: italic; }
+        .mobile-lang-btn { padding: 10px 20px; border: 1px solid rgba(241, 201, 125, 0.2); border-radius: 12px; font-size: 12px; text-transform: uppercase; color: #d0c5af; width: 100%; text-align: center; }
+        .mobile-lang-btn.active { background: rgba(241, 201, 125, 0.1); color: #f1c97d; border-color: #f1c97d; }
     </style>
 </head>
 <body class="font-body selection:bg-primary selection:text-on-primary">
@@ -133,7 +135,7 @@
 <!-- Booking Overlay -->
 <div id="booking-overlay">
     <button onclick="toggleBooking()" class="absolute top-6 right-6 text-white hover:text-primary transition-colors"><span class="material-symbols-outlined text-3xl">close</span></button>
-    <div class="booking-card text-center text-left">
+    <div class="booking-card text-center">
         <div class="mb-5">
             <h2 class="serif-display text-xl font-bold text-white mb-1" data-i18n="booking_title">Book Your Growth Call</h2>
             <p class="text-[10px] text-on-surface-variant uppercase tracking-widest" data-i18n="booking_subtitle">Transform your business in 30 minutes.</p>
@@ -143,7 +145,7 @@
                 <span data-i18n="booking_cal">Select on Calendar</span>
                 <span class="material-symbols-outlined text-sm">open_in_new</span>
             </a>
-            <div class="p-3 border border-white/10 rounded-xl bg-white/5">
+            <div class="p-3 border border-white/10 rounded-xl bg-white/5 text-center">
                 <p class="text-[9px] text-on-surface-variant/60 uppercase tracking-widest mb-1" data-i18n="booking_direct">Or call us directly</p>
                 <a href="tel:7498038027" class="text-base text-primary font-bold tracking-widest">7498038027</a>
             </div>
@@ -151,15 +153,28 @@
     </div>
 </div>
 
-<!-- Mobile Nav -->
+<!-- Mobile Nav Overlay -->
 <div id="mobile-overlay">
     <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white"><span class="material-symbols-outlined text-4xl">close</span></button>
-    <div class="flex flex-col gap-10 text-center">
-        <a class="serif-display text-4xl text-primary" href="#" onclick="toggleMobileMenu()" data-i18n="nav_home">Home</a>
-        <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#about" onclick="toggleMobileMenu()" data-i18n="nav_about">About</a>
-        <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#work" onclick="toggleMobileMenu()" data-i18n="nav_works">Our Works</a>
-        <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#services" onclick="toggleMobileMenu()" data-i18n="nav_services">Growth Service</a>
-        <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
+    <div class="flex flex-col gap-8 text-center px-10 w-full max-w-sm">
+        <div class="flex flex-col gap-6 mb-4">
+            <a class="serif-display text-4xl text-primary" href="#" onclick="toggleMobileMenu()" data-i18n="nav_home">Home</a>
+            <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#about" onclick="toggleMobileMenu()" data-i18n="nav_about">About</a>
+            <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#work" onclick="toggleMobileMenu()" data-i18n="nav_works">Our Works</a>
+            <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#services" onclick="toggleMobileMenu()" data-i18n="nav_services">Growth Service</a>
+            <a class="serif-display text-4xl text-on-surface-variant hover:text-white" href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
+        </div>
+        
+        <!-- Mobile Language Selection -->
+        <div class="pt-8 border-t border-white/10">
+            <p class="label-caps text-[10px] text-primary mb-4 tracking-widest" data-i18n="label">Language</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="changeLanguage('en'); toggleMobileMenu()" class="mobile-lang-btn" id="m-lang-en">English</button>
+                <button onclick="changeLanguage('ar'); toggleMobileMenu()" class="mobile-lang-btn" id="m-lang-ar">عربي</button>
+                <button onclick="changeLanguage('ta'); toggleMobileMenu()" class="mobile-lang-btn" id="m-lang-ta">தமிழ்</button>
+                <button onclick="changeLanguage('hi'); toggleMobileMenu()" class="mobile-lang-btn" id="m-lang-hi">हिन्दी</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -181,10 +196,10 @@
         <div class="absolute left-1/2 -translate-x-1/2">
             <a href="#" class="block hover:scale-105 transition-transform"><img src="https://res.cloudinary.com/dutt5ibzr/image/upload/v1776333065/tazzau7jsvjbqvsfext3.png" alt="AL ZAFIRA" class="w-[75px] md:w-[95px] h-auto object-contain"></a>
         </div>
-        <div class="relative group">
+        <div class="relative group hidden lg:block">
             <button class="text-on-surface-variant hover:text-white flex items-center gap-2 py-2 font-label text-[10px] uppercase tracking-[0.2em]">
                 <span class="material-symbols-outlined text-[18px]">language</span>
-                <span class="hidden sm:inline" id="currentLangLabel">Language</span>
+                <span id="currentLangLabel">Language</span>
             </button>
             <div class="absolute top-full right-0 bg-[#1c1b1b] border border-white/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-2xl min-w-[120px] rounded-b-xl overflow-hidden">
                 <button onclick="changeLanguage('en')" class="w-full text-left px-5 py-3 hover:bg-primary/10 text-on-surface-variant text-[10px] uppercase">English</button>
@@ -219,7 +234,7 @@
                 <div class="profile-card" id="profileCard">
                     <img src="https://res.cloudinary.com/dajjun43n/image/upload/v1776491612/xy5t1d5owc7mszhetee3.jpg" class="profile-card-img" alt="Aashik">
                     <div class="profile-info">
-                        <h4 class="serif-display text-4xl md:text-5xl text-white font-bold mb-1 shadow-black" data-i18n="profile_name">Aashik</h4>
+                        <h4 class="serif-display text-4xl md:text-5xl text-white font-bold mb-1 shadow-black drop-shadow-lg" data-i18n="profile_name">Aashik</h4>
                         <p class="label-caps text-[10px] tracking-[0.3em] text-primary" data-i18n="profile_title">digital creator</p>
                     </div>
                     <div class="profile-glass-card shadow-2xl">
@@ -248,7 +263,7 @@
         </div>
     </section>
 
-    <!-- Portfolio Section - UPDATED PROJECT 3 LINK -->
+    <!-- Portfolio Section -->
     <section class="bg-surface py-20 md:py-32 px-6 md:px-12" id="work">
         <div class="max-w-7xl mx-auto">
             <div class="mb-12 md:mb-16 text-center md:text-left">
@@ -271,7 +286,6 @@
                         <h5 class="serif-display text-2xl md:text-4xl text-white font-bold" data-i18n="proj2_title">Visual Editing</h5>
                     </div>
                 </a>
-                <!-- UPDATED LINK FOR BRAND HUB -->
                 <a href="https://ak4432.github.io/website-/" target="_blank" class="stack-card">
                     <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover opacity-90"/>
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-8 md:p-12 flex flex-col justify-end text-left">
@@ -293,36 +307,36 @@
     <!-- Growth Stack Section -->
     <section class="py-20 md:py-32 bg-surface-container px-6" id="services">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-12 text-center text-left">
+            <div class="mb-12 text-center">
                 <p class="label-caps text-primary mb-5 text-xs tracking-[0.4em]" data-i18n="stack_badge">GROWTH STACK</p>
                 <p class="serif-display text-sm md:text-2xl italic text-on-surface-variant max-w-2xl mx-auto mb-6" data-i18n="stack_subtitle">We know you've thought about it. It's time to make it happen.</p>
                 <h2 class="serif-display text-4xl md:text-6xl font-bold uppercase text-white mb-6 tracking-tight" data-i18n="stack_title">Everything Your Business Needs to Grow</h2>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="service-square shadow-lg text-left">
+                <div class="service-square shadow-lg">
                     <span class="material-symbols-outlined text-primary text-4xl mb-4">language</span>
-                    <h4 class="serif-display text-lg md:text-xl mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s1_title">Website Design</h4>
+                    <h4 class="serif-display text-lg mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s1_title">Website Design</h4>
                     <div class="flex flex-col items-center">
                         <span class="service-tag" data-i18n="tag_landing">Landing Page</span><span class="service-tag" data-i18n="tag_biz">Business Website</span><span class="service-tag" data-i18n="tag_anim">Animation</span><span class="service-tag" data-i18n="tag_3d">3D Website</span><span class="service-tag" data-i18n="tag_uiux">UI/UX Design</span>
                     </div>
                 </div>
-                <div class="service-square shadow-lg text-left">
+                <div class="service-square shadow-lg">
                     <span class="material-symbols-outlined text-primary text-4xl mb-4">auto_fix_high</span>
-                    <h4 class="serif-display text-lg md:text-xl mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s2_title">Creative Design</h4>
+                    <h4 class="serif-display text-lg mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s2_title">Creative Design</h4>
                     <div class="flex flex-col items-center">
                         <span class="service-tag" data-i18n="tag_graphic">Graphic Design</span><span class="service-tag" data-i18n="tag_boucher">Boucher</span><span class="service-tag" data-i18n="tag_card">Business Card</span><span class="service-tag" data-i18n="tag_menu">Menu</span><span class="service-tag" data-i18n="tag_flyer">Flyer</span>
                     </div>
                 </div>
-                <div class="service-square shadow-lg text-left">
+                <div class="service-square shadow-lg">
                     <span class="material-symbols-outlined text-primary text-4xl mb-4">movie_edit</span>
-                    <h4 class="serif-display text-lg md:text-xl mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s3_title">Visual Editing</h4>
+                    <h4 class="serif-display text-lg mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s3_title">Visual Editing</h4>
                     <div class="flex flex-col items-center">
                         <span class="service-tag" data-i18n="tag_photos">photo’s</span><span class="service-tag" data-i18n="tag_videos">video's</span><span class="service-tag" data-i18n="tag_reels">social reels</span><span class="service-tag" data-i18n="tag_upscale">upscale</span><span class="service-tag" data-i18n="tag_color">colour edit</span>
                     </div>
                 </div>
-                <div class="service-square shadow-lg text-left">
+                <div class="service-square shadow-lg">
                     <span class="material-symbols-outlined text-primary text-4xl mb-4">present_to_all</span>
-                    <h4 class="serif-display text-lg md:text-xl mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s4_title">Presentation Design</h4>
+                    <h4 class="serif-display text-lg mb-6 font-bold text-white uppercase text-center" data-i18n="stack_s4_title">Presentation Design</h4>
                     <div class="flex flex-col items-center">
                         <span class="service-tag" data-i18n="tag_business">Business</span><span class="service-tag" data-i18n="tag_board">Board Meetings</span><span class="service-tag" data-i18n="tag_office">Office Meetings</span><span class="service-tag" data-i18n="tag_deck">Discussion Deck</span><span class="service-tag" data-i18n="tag_investor">Investor Deck</span>
                     </div>
@@ -331,7 +345,7 @@
         </div>
     </section>
 
-    <!-- Reviews -->
+    <!-- Reviews Marquee -->
     <section class="py-20 md:py-32 bg-[#0e0e0e] overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 mb-12 text-center md:text-left">
             <p class="label-caps text-primary mb-4 text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase" data-i18n="reviews_badge">PROOF OF EXCELLENCE</p>
@@ -355,7 +369,7 @@
         </div>
     </section>
 
-    <!-- Reduced Contact Section -->
+    <!-- Contact Section -->
     <section class="py-20 bg-surface px-6 md:px-12" id="contact">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 text-left">
             <div class="lg:col-span-4">
@@ -370,12 +384,9 @@
             <div class="lg:col-span-8 form-border-glow shadow-3xl">
                 <div class="p-6 md:p-8 h-full w-full">
                     <form class="space-y-8" id="enquiryForm">
-                        <div>
-                            <p class="label-caps text-primary text-[9px] font-bold mb-4 tracking-[0.2em] uppercase text-left" data-i18n="form_sec_1">PERSONAL DETAILS</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type="text" id="name" class="w-full bg-surface border border-white/10 p-3.5 focus:border-primary outline-none rounded-xl text-white text-sm" placeholder="Your Name" required />
-                                <input type="email" id="email" class="w-full bg-surface border border-white/10 p-3.5 focus:border-primary outline-none rounded-xl text-white text-sm" placeholder="Your Email" required />
-                            </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" id="name" class="w-full bg-surface border border-white/10 p-3.5 focus:border-primary outline-none rounded-xl text-white text-sm" placeholder="Your Name" required />
+                            <input type="email" id="email" class="w-full bg-surface border border-white/10 p-3.5 focus:border-primary outline-none rounded-xl text-white text-sm" placeholder="Your Email" required />
                         </div>
                         <div>
                             <p class="label-caps text-primary text-[9px] font-bold mb-4 tracking-[0.2em] uppercase text-left" data-i18n="form_sec_2">WHAT DO YOU NEED HELP WITH?</p>
@@ -407,9 +418,9 @@
     </section>
 </main>
 
-<footer class="bg-[#0a0a0a] py-20 px-6 md:px-12 border-t border-white/5 text-left text-left">
+<footer class="bg-[#0a0a0a] py-20 px-6 md:px-12 border-t border-white/5 text-left">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 items-start">
-        <div class="md:col-span-5 text-left">
+        <div class="md:col-span-5">
             <a href="#"><img src="https://res.cloudinary.com/dutt5ibzr/image/upload/v1776333065/tazzau7jsvjbqvsfext3.png" alt="Logo" class="h-8 md:h-10 w-auto mb-8"></a>
             <p class="text-on-surface-variant text-sm leading-relaxed max-w-sm text-left" data-i18n="footer_tag">One time build. Lifelong clarity. Transform your business into a premium authority.</p>
         </div>
@@ -424,7 +435,7 @@
         </div>
         <div class="md:col-span-4 flex flex-col items-start md:items-end w-full">
             <div class="follow-us-box w-full max-w-sm text-left">
-                <p class="text-[#d0c5af] font-bold label-caps text-[10px] mb-6 uppercase text-left" data-i18n="footer_social">Follow Us</p>
+                <p class="text-[#d0c5af] font-bold label-caps text-[10px] mb-6 uppercase" data-i18n="footer_social">Follow Us</p>
                 <div class="flex gap-8 justify-start">
                     <a href="https://www.instagram.com/al_zafira4?igsh=eWU1YXpwMmhiaXB4" target="_blank" class="hover:scale-125 transition-transform"><img src="https://res.cloudinary.com/dutt5ibzr/image/upload/v1776331195/eywcsdomedoeuco2wz2z.png" class="w-8 h-8 object-contain"></a>
                     <a href="https://www.linkedin.com/in/aashik-i-876515401" target="_blank" class="hover:scale-125 transition-transform"><img src="https://res.cloudinary.com/dutt5ibzr/image/upload/v1776331196/obl0bsyr7tj6obr0lzah.png" class="w-6 h-6 object-contain"></a>
@@ -464,14 +475,15 @@
             stack_s1_title: "Website Design", stack_s2_title: "Creative Design", stack_s3_title: "Visual Editing", stack_s4_title: "Presentation Design",
             tag_landing: "Landing Page", tag_biz: "Business Website", tag_anim: "Animation", tag_3d: "3D Website", tag_uiux: "UI/UX",
             tag_graphic: "Graphic", tag_boucher: "Boucher", tag_card: "Card", tag_menu: "Menu", tag_flyer: "Flyer",
-            tag_photos: "photos", tag_videos: "videos", tag_reels: "social reels", tag_upscale: "upscale", tag_color: "color edit", tag_business: "Business", tag_board: "Board", tag_office: "Office", tag_deck: "Deck", tag_investor: "Investor",
+            tag_photos: "photos", tag_videos: "videos", tag_reels: "social reels", tag_upscale: "upscale", tag_color: "color edit",
+            tag_business: "Business", tag_board: "Board", tag_office: "Office", tag_deck: "Deck", tag_investor: "Investor",
             reviews_badge: "PROOF OF EXCELLENCE", reviews_title: "From the Community reviews",
             cta_title_1: "Ready to Transform", cta_title_2: "Your Business in", cta_title_3: "premium and", cta_title_4: "affordable?", cta_subtitle: "One time build. Lifelong clarity.",
             contact_badge: "READY TO TRANSFORM?", contact_title: "Start Your Project", contact_desc: "Tell us about your business and what you're looking to achieve. We'll get back to you within 24 hours with a tailored plan.",
             form_sec_1: "PERSONAL DETAILS", form_sec_2: "WHAT DO YOU NEED HELP WITH?", label_name: "NAME", label_email: "EMAIL", label_curr: "CURRENCY", label_budget: "BUDGET RANGE", label_vision: "TELL US MORE", btn_send: "SEND ENQUIRY", 
-            footer_tag: "One time build. Lifelong clarity.", footer_links: "QUICK LINKS", footer_social: "FOLLOW US", footer_copy: "© 2026 AL ZAFIRA. PREMIUM DIGITAL SOLUTIONS.",
+            footer_tag: "One time build. Lifelong clarity. Transform your business into a premium authority.", footer_links: "QUICK LINKS", footer_social: "FOLLOW US", footer_copy: "© 2026 AL ZAFIRA. PREMIUM DIGITAL SOLUTIONS.",
             profile_name: "Aashik", profile_title: "digital creator", profile_status: "Online", profile_contact: "Contact Me",
-            rev1: "Empire transformed.", rev2: "Sophistication.", rev3: "Best investment.", rev4: "Absolute clarity.", rev5: "League of their own.", rev6: "Authority built.", rev7: "Board help.", rev8: "Hire this team.",
+            rev1: "Chaos to empire.", rev2: "Sophistication.", rev3: "Best investment.", rev4: "Absolute clarity.", rev5: "League of their own.", rev6: "Authority built.", rev7: "Board help.", rev8: "Hire this team.",
             booking_title: "Book Your Growth Call", booking_subtitle: "Transform your business in 30 min.", booking_cal: "Select on Calendar", booking_direct: "Or call us directly",
             contact_phone_label: "Direct Line", contact_email_label: "Email"
         },
@@ -499,7 +511,7 @@
         ta: { 
             label: "மொழி", nav_home: "முகப்பு", nav_about: "பற்றி", nav_works: "பணிகள்", nav_services: "சேவை", nav_contact: "தொடர்பு", 
             hero_badge: "வணிக தீர்வுகள்", hero_title: "உங்கள் பிரீமியம் பிராண்டை நிறுவுங்கள்", hero_subtitle: "சாதாரண பிராண்டுகள் உயர்தரமாகும் இடம்",
-            btn_growth: "பதிவு செய்யுங்கள்", about_greeting: "வணக்கம்!", about_title_pre: "AL ZAFIRA-க்குள் நீங்கள் பெறுவது", work_title: "எங்கள் பணிகள்", reviews_title: "மக்களின் கருத்துக்கள்", stack_badge: "வளர்ச்சி அடுக்கு", stack_subtitle: "இதைச் செய்ய வேண்டிய நேரம் வந்துவிட்டது.", stack_title: "வணிக வளர்ச்சிக்கு அனைத்தும்",
+            btn_growth: "பதிவு செய்யுங்கள்", about_greeting: "வணக்கம்!", about_title_pre: "AL ZAFIRA-க்குள் நீங்கள் பெறுவது", work_title: "எங்கள் பணிகள்", reviews_title: "மக்களின் கருத்துக்கள்", stack_badge: "வளர்ச்சி அடுக்கு", stack_title: "வணிக வளர்ச்சிக்கு அனைத்தும்",
             stack_s1_title: "வலைத்தளம்", stack_s2_title: "கிரியேட்டிவ்", stack_s3_title: "எடிட்டிங்", stack_s4_title: "பிரசன்டேஷன்",
             tag_landing: "லேண்டிங் பேஜ்", tag_biz: "வணிக வலைத்தளம்", tag_anim: "அனிமேஷன்", tag_3d: "3D வலைத்தளம்", tag_uiux: "UI/UX",
             tag_graphic: "கிராஃபிக்", tag_boucher: "பவுச்சர்", tag_card: "கார்டு", tag_menu: "மெனு", tag_flyer: "பிளையர்",
@@ -515,7 +527,7 @@
         hi: { 
             label: "भाषा", nav_home: "होम", nav_about: "बारे में", nav_works: "हमारे कार्य", nav_services: "सेवा", nav_contact: "संपर्क", 
             hero_badge: "व्यापार समाधान", hero_title: "अपना प्रीमियम ब्रांड स्थापित करें", hero_subtitle: "जहाँ सामान्य ब्रांड टॉप टियर बन जाते हैं",
-            btn_growth: "कॉल बुक करें", about_greeting: "नमस्ते!", about_title_pre: "AL ZAFIRA के अंदर आपको क्या मिलता है", work_title: "हमारे काम", reviews_title: "सामुदायिक समीक्षाएँ", stack_badge: "ग्रोथ स्टैक", stack_subtitle: "इसे करने का समय आ गया है।", stack_title: "व्यापार वृद्धि के लिए सब कुछ",
+            btn_growth: "कॉल बुक करें", about_greeting: "नमस्ते!", about_title_pre: "AL ZAFIRA के अंदर आपको क्या मिलता है", work_title: "हमारे काम", reviews_title: "सामुदायिक समीक्षाएँ", stack_badge: "ग्रोथ स्टैक", stack_title: "व्यापार वृद्धि के लिए सब कुछ",
             stack_s1_title: "वेबसाइट डिजाइन", stack_s2_title: "क्रिएटिव डिजाइन", stack_s3_title: "विजुअल एडिटिंग", stack_s4_title: "प्रेजेंटेशन डिजाइन",
             tag_landing: "लैंडिंग पेज", tag_biz: "बिज़नेस वेबसाइट", tag_anim: "एनिमेशन", tag_3d: "3D वेबसाइट", tag_uiux: "UI/UX",
             tag_graphic: "ग्राफिक", tag_boucher: "वाउचर", tag_card: "कार्ड", tag_menu: "मेनू", tag_flyer: "फ्लायर",
@@ -533,7 +545,7 @@
     const budgetData = {
       en: { INR: ["Under ₹5,000", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000+"], USD: ["Under $100", "$100 – $500", "$500 – $2,000", "$2,000+"], AED: ["Under 500 د.إ", "500 – 2,000 د.إ", "2,000 – 7,000 د.إ", "7,000+ د.إ"] },
       ar: { INR: ["أقل من ₹5,000", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000+"], USD: ["أقل من $100", "$100 – $500", "$500 – $2,000", "$2,000+"], AED: ["أقل من 500 د.إ", "500 – 2,000 د.إ", "2,000 – 7,000 د.إ", "7,000+ د.إ"] },
-      ta: { INR: ["₹5,000 க்குள்", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000+"], USD: ["$100 க்குள்", "$100 – $500", "$500 – $2,000", "$2,000+"], AED: ["500 د.إ க்குள்", "500 – 2,000 த.இ.", "2,000 – 7,000 த.இ.", "7,000+ த.இ."] },
+      ta: { INR: ["₹5,000 க்குள்", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000+"], USD: ["$100 க்குள்", "$100 – $500", "$500 – $2,000", "$2,000+"], AED: ["500 த.இ. க்குள்", "500 – 2,000 த.இ.", "2,000 – 7,000 த.இ.", "7,000+ த.இ."] },
       hi: { INR: ["₹5,000 से कम", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000+"], USD: ["$100 से कम", "$100 – $500", "$500 – $2,000", "$2,000+"], AED: ["500 द.इ. से कम", "500 – 2,000 ड.इ.", "2,000 – 7,000 ड.इ.", "7,000+ से अधिक"] }
     };
 
@@ -575,16 +587,32 @@
         document.documentElement.lang = lang;
         document.body.dir = (lang === "ar") ? "rtl" : "ltr";
         const trans = i18n[lang] || i18n.en;
+        
+        // Update all standard translation keys
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (trans[key]) el.innerHTML = trans[key];
             else if (i18n.en[key]) el.innerHTML = i18n.en[key];
         });
+        
+        // Update current labels
         document.getElementById('currentLangLabel').innerText = trans.label || "Language";
+        
+        // Update Active States for Mobile Menu Buttons
+        ['en', 'ar', 'ta', 'hi'].forEach(l => {
+            const btn = document.getElementById(`m-lang-${l}`);
+            if (btn) {
+                if (l === lang) btn.classList.add('active');
+                else btn.classList.remove('active');
+            }
+        });
+
+        // Update form placeholders
         const p = placeholders[lang] || placeholders.en;
         if (document.getElementById('name')) document.getElementById('name').placeholder = p.name;
         if (document.getElementById('email')) document.getElementById('email').placeholder = p.email;
         if (document.getElementById('vision')) document.getElementById('vision').placeholder = p.vision;
+
         renderReviews(lang);
         updateBudgetOptions(lang);
         initPillNav(); 
@@ -650,7 +678,6 @@
 
     window.onload = function() {
         autoDetectLanguage();
-        renderReviews('en');
         initPillNav();
         initProfileCard();
         
